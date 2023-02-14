@@ -4,6 +4,7 @@ target/
 !**/src/test/**/target/
 
 pom.xml
+src/main/java/concertDAO/configJPA.xml
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

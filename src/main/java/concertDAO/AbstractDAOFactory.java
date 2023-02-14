@@ -7,9 +7,9 @@ public class AbstractDAOFactory {
      * @param type le support de persistance � utiliser
      * @return la fabrique de DAO pour ce type de persistance
      */
-    public static Concerts_JDBC_DAOFactory getDAOFactory(PersistenceKind type) {
-        if (type.equals(PersistenceKind.JDBC)) {
-            return new Concerts_JDBC_DAOFactory();
+    public static Concerts_JPA_DAOFactory getDAOFactory(PersistenceKind type) {
+        if (type.equals(PersistenceKind.JPA)) {
+            return new Concerts_JPA_DAOFactory();
         } else {
             return null;
         }

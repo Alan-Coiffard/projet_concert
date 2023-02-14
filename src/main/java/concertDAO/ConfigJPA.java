@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement
 @XmlType(propOrder = {"url", "user", "password"})
-public class ConfigJDBC {
+public class ConfigJPA {
 
     /**
      * URL de connexion JDBC au SGBD
@@ -51,13 +51,13 @@ public class ConfigJDBC {
         this.password = password;
     }
 
-    public ConfigJDBC(String url, String user, String password) {
+    public ConfigJPA(String url, String user, String password) {
         this.url = url;
         this.user = user;
         this.password = password;
     }
     
-    public ConfigJDBC() {
+    public ConfigJPA() {
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ConfigJDBC {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ConfigJDBC other = (ConfigJDBC) obj;
+        final ConfigJPA other = (ConfigJPA) obj;
         if (!Objects.equals(this.url, other.url)) {
             return false;
         }

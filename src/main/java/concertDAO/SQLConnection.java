@@ -8,15 +8,15 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
 /**
- * Connexion à la base de BDD à partir d'un fichier XML de configuration pour JDBC.
+ * Connexion à la base de BDD à partir d'un fichier XML de configuration pour JPA.
  * @author Eric
  */
 public class SQLConnection {
 
    /**
-    * Configuration JDBC
+    * Configuration JPA
     */
-    private static ConfigJDBC config = null;
+    private static ConfigJPA config = null;
     
     /**
      * Connexion à la base de données, pour réaliser les requêtes SQL
@@ -24,9 +24,9 @@ public class SQLConnection {
     private static Connection connection = null;
     
     /**
-     * Nom et emplacement du fichier XML de configuration de JDBC
+     * Nom et emplacement du fichier XML de configuration de JPA
      */
-    private static String configFile = "src/main/java/sportsDAO/configJDBC.xml";
+    private static String configFile = "src/main/java/concertDAO/configJPA.xml";
  
     /**
      * Charge le contenu du fichier XML de configuration.
@@ -35,19 +35,19 @@ public class SQLConnection {
      */
     private static void loadConfigFile() throws DAOException {
         try {
-            JAXBContext jc = JAXBContext.newInstance(sportsDAO.ConfigJDBC.class);
+            JAXBContext jc = JAXBContext.newInstance(concertDAO.ConfigJPA.class);
             Unmarshaller unmarshaller = jc.createUnmarshaller();
-            config = (ConfigJDBC)unmarshaller.unmarshal(new File(configFile));
+            config = (ConfigJPA)unmarshaller.unmarshal(new File(configFile));
         }
         catch(Exception ex) {
-            throw new DAOException("Impossible de charger la configuration JDBC ("+ex.getMessage()+")");
+            throw new DAOException("Impossible de charger la configuration JPA ("+ex.getMessage()+")");
         }
     }
     
     /**
      * Renvoie la connexion vers le SGBD. Fonctionne en mode singleton : la connexion est instanciée une seule fois.
-     * Utilise le fichier de config JDBC par défaut se trouvant dans le package sportsDAO des sources.
-     * @return la connexion JDBC vers le SGBD
+     * Utilise le fichier de config JPA par défaut se trouvant dans le package œ des sources.
+     * @return la connexion JPA vers le SGBD
      * @throws DAOException en cas de problème
      */
     public static Connection getConnection() throws DAOException {
@@ -63,9 +63,9 @@ public class SQLConnection {
     
     /**
      * Renvoie la connexion vers le SGBD. Fonctionne en mode singleton : la connexion est instanciée une seule fois.
-     * Utilise le fichier de config JDBC passé en paramètre.
-     * @param configFile nom du fichier XML de connexion JDBC
-     * @return la connexion JDBC vers le SGBD
+     * Utilise le fichier de config JPA passé en paramètre.
+     * @param configFile nom du fichier XML de connexion JPA
+     * @return la connexion JPA vers le SGBD
      * @throws DAOException en cas de problème
      */
     public static Connection getConnection(String configFile) throws DAOException {
