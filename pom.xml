@@ -16,9 +16,14 @@
 
     <dependencies>
     	<dependency>
-    		<groupId>Alan</groupId>
+    		<groupId>groy</groupId>
     		<artifactId>DAO</artifactId>
     		<version>0.0.1-SNAPSHOT</version>
     	</dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>4.8.2</version>
+        </dependency>
     </dependencies>
 </project>
