@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -28,8 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Billet.findById", query = "SELECT b FROM Billet b WHERE b.id = :id"),
     @NamedQuery(name = "Billet.findByNumero", query = "SELECT b FROM Billet b WHERE b.numero = :numero"),
     @NamedQuery(name = "Billet.findByPrix", query = "SELECT b FROM Billet b WHERE b.prix = :prix"),
-    @NamedQuery(name = "Billet.findByType", query = "SELECT b FROM Billet b WHERE b.type = :type"),
-    @NamedQuery(name = "Billet.findByConcertSoireeId", query = "SELECT b FROM Billet b WHERE b.concertSoireeId = :concertSoireeId")})
+    @NamedQuery(name = "Billet.findByType", query = "SELECT b FROM Billet b WHERE b.type = :type")})
 public class Billet implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,8 +46,12 @@ public class Billet implements Serializable {
     private Float prix;
     @Column(name = "type")
     private String type;
-    @Column(name = "concert_soiree_id")
-    private Integer concertSoireeId;
+    @JoinColumn(name = "concert_soiree_id", referencedColumnName = "id")
+    @ManyToOne
+    private Concert concertSoireeId;
+    @JoinColumn(name = "concert_soiree_id", referencedColumnName = "id")
+    @ManyToOne
+    private Soiree concertSoireeId1;
 
     public Billet() {
     }
@@ -87,12 +92,20 @@ public class Billet implements Serializable {
         this.type = type;
     }
 
-    public Integer getConcertSoireeId() {
+    public Concert getConcertSoireeId() {
         return concertSoireeId;
     }
 
-    public void setConcertSoireeId(Integer concertSoireeId) {
+    public void setConcertSoireeId(Concert concertSoireeId) {
         this.concertSoireeId = concertSoireeId;
+    }
+
+    public Soiree getConcertSoireeId1() {
+        return concertSoireeId1;
+    }
+
+    public void setConcertSoireeId1(Soiree concertSoireeId1) {
+        this.concertSoireeId1 = concertSoireeId1;
     }
 
     @Override

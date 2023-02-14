@@ -6,18 +6,23 @@ package data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,8 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Concert.findAll", query = "SELECT c FROM Concert c"),
     @NamedQuery(name = "Concert.findById", query = "SELECT c FROM Concert c WHERE c.id = :id"),
-    @NamedQuery(name = "Concert.findBySalleId", query = "SELECT c FROM Concert c WHERE c.salleId = :salleId"),
-    @NamedQuery(name = "Concert.findByGroupeId", query = "SELECT c FROM Concert c WHERE c.groupeId = :groupeId"),
     @NamedQuery(name = "Concert.findByDateHeure", query = "SELECT c FROM Concert c WHERE c.dateHeure = :dateHeure"),
     @NamedQuery(name = "Concert.findByDuree", query = "SELECT c FROM Concert c WHERE c.duree = :duree"),
     @NamedQuery(name = "Concert.findByPrix", query = "SELECT c FROM Concert c WHERE c.prix = :prix")})
@@ -42,10 +45,6 @@ public class Concert implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "salle_id")
-    private Integer salleId;
-    @Column(name = "groupe_id")
-    private Integer groupeId;
     @Column(name = "date_heure")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateHeure;
@@ -54,6 +53,16 @@ public class Concert implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "prix")
     private Float prix;
+    @OneToMany(mappedBy = "concertSoireeId")
+    private Set<Billet> billetSet;
+    @OneToMany(mappedBy = "concertId")
+    private Set<Compose> composeSet;
+    @JoinColumn(name = "groupe_id", referencedColumnName = "id")
+    @ManyToOne
+    private Groupe groupeId;
+    @JoinColumn(name = "salle_id", referencedColumnName = "id")
+    @ManyToOne
+    private Salle salleId;
 
     public Concert() {
     }
@@ -68,22 +77,6 @@ public class Concert implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getSalleId() {
-        return salleId;
-    }
-
-    public void setSalleId(Integer salleId) {
-        this.salleId = salleId;
-    }
-
-    public Integer getGroupeId() {
-        return groupeId;
-    }
-
-    public void setGroupeId(Integer groupeId) {
-        this.groupeId = groupeId;
     }
 
     public Date getDateHeure() {
@@ -108,6 +101,40 @@ public class Concert implements Serializable {
 
     public void setPrix(Float prix) {
         this.prix = prix;
+    }
+
+    @XmlTransient
+    public Set<Billet> getBilletSet() {
+        return billetSet;
+    }
+
+    public void setBilletSet(Set<Billet> billetSet) {
+        this.billetSet = billetSet;
+    }
+
+    @XmlTransient
+    public Set<Compose> getComposeSet() {
+        return composeSet;
+    }
+
+    public void setComposeSet(Set<Compose> composeSet) {
+        this.composeSet = composeSet;
+    }
+
+    public Groupe getGroupeId() {
+        return groupeId;
+    }
+
+    public void setGroupeId(Groupe groupeId) {
+        this.groupeId = groupeId;
+    }
+
+    public Salle getSalleId() {
+        return salleId;
+    }
+
+    public void setSalleId(Salle salleId) {
+        this.salleId = salleId;
     }
 
     @Override

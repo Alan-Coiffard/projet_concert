@@ -5,6 +5,7 @@
 package data;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +14,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -41,6 +44,10 @@ public class Soiree implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "prix")
     private Float prix;
+    @OneToMany(mappedBy = "concertSoireeId1")
+    private Set<Billet> billetSet;
+    @OneToMany(mappedBy = "soireeId")
+    private Set<Compose> composeSet;
 
     public Soiree() {
     }
@@ -71,6 +78,24 @@ public class Soiree implements Serializable {
 
     public void setPrix(Float prix) {
         this.prix = prix;
+    }
+
+    @XmlTransient
+    public Set<Billet> getBilletSet() {
+        return billetSet;
+    }
+
+    public void setBilletSet(Set<Billet> billetSet) {
+        this.billetSet = billetSet;
+    }
+
+    @XmlTransient
+    public Set<Compose> getComposeSet() {
+        return composeSet;
+    }
+
+    public void setComposeSet(Set<Compose> composeSet) {
+        this.composeSet = composeSet;
     }
 
     @Override

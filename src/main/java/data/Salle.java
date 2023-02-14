@@ -5,16 +5,21 @@
 package data;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,8 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Salle.findById", query = "SELECT s FROM Salle s WHERE s.id = :id"),
     @NamedQuery(name = "Salle.findByNom", query = "SELECT s FROM Salle s WHERE s.nom = :nom"),
     @NamedQuery(name = "Salle.findByAdresse", query = "SELECT s FROM Salle s WHERE s.adresse = :adresse"),
-    @NamedQuery(name = "Salle.findByCapacite", query = "SELECT s FROM Salle s WHERE s.capacite = :capacite"),
-    @NamedQuery(name = "Salle.findByGestionnaireId", query = "SELECT s FROM Salle s WHERE s.gestionnaireId = :gestionnaireId")})
+    @NamedQuery(name = "Salle.findByCapacite", query = "SELECT s FROM Salle s WHERE s.capacite = :capacite")})
 public class Salle implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,8 +48,11 @@ public class Salle implements Serializable {
     private String adresse;
     @Column(name = "capacite")
     private Integer capacite;
-    @Column(name = "gestionnaire_id")
-    private Integer gestionnaireId;
+    @JoinColumn(name = "gestionnaire_id", referencedColumnName = "id")
+    @ManyToOne
+    private Gestionnaire gestionnaireId;
+    @OneToMany(mappedBy = "salleId")
+    private Set<Concert> concertSet;
 
     public Salle() {
     }
@@ -86,12 +93,21 @@ public class Salle implements Serializable {
         this.capacite = capacite;
     }
 
-    public Integer getGestionnaireId() {
+    public Gestionnaire getGestionnaireId() {
         return gestionnaireId;
     }
 
-    public void setGestionnaireId(Integer gestionnaireId) {
+    public void setGestionnaireId(Gestionnaire gestionnaireId) {
         this.gestionnaireId = gestionnaireId;
+    }
+
+    @XmlTransient
+    public Set<Concert> getConcertSet() {
+        return concertSet;
+    }
+
+    public void setConcertSet(Set<Concert> concertSet) {
+        this.concertSet = concertSet;
     }
 
     @Override

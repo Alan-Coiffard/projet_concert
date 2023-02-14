@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -33,8 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Artiste.findByPrenom", query = "SELECT a FROM Artiste a WHERE a.prenom = :prenom"),
     @NamedQuery(name = "Artiste.findByPseudo", query = "SELECT a FROM Artiste a WHERE a.pseudo = :pseudo"),
     @NamedQuery(name = "Artiste.findByVilleOrigine", query = "SELECT a FROM Artiste a WHERE a.villeOrigine = :villeOrigine"),
-    @NamedQuery(name = "Artiste.findByDateNaissance", query = "SELECT a FROM Artiste a WHERE a.dateNaissance = :dateNaissance"),
-    @NamedQuery(name = "Artiste.findByGroupeId", query = "SELECT a FROM Artiste a WHERE a.groupeId = :groupeId")})
+    @NamedQuery(name = "Artiste.findByDateNaissance", query = "SELECT a FROM Artiste a WHERE a.dateNaissance = :dateNaissance")})
 public class Artiste implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,8 +55,9 @@ public class Artiste implements Serializable {
     @Column(name = "date_naissance")
     @Temporal(TemporalType.DATE)
     private Date dateNaissance;
-    @Column(name = "groupe_id")
-    private Integer groupeId;
+    @JoinColumn(name = "groupe_id", referencedColumnName = "id")
+    @ManyToOne
+    private Groupe groupeId;
 
     public Artiste() {
     }
@@ -112,11 +114,11 @@ public class Artiste implements Serializable {
         this.dateNaissance = dateNaissance;
     }
 
-    public Integer getGroupeId() {
+    public Groupe getGroupeId() {
         return groupeId;
     }
 
-    public void setGroupeId(Integer groupeId) {
+    public void setGroupeId(Groupe groupeId) {
         this.groupeId = groupeId;
     }
 

@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -25,9 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Compose.findAll", query = "SELECT c FROM Compose c"),
-    @NamedQuery(name = "Compose.findById", query = "SELECT c FROM Compose c WHERE c.id = :id"),
-    @NamedQuery(name = "Compose.findByConcertId", query = "SELECT c FROM Compose c WHERE c.concertId = :concertId"),
-    @NamedQuery(name = "Compose.findBySoireeId", query = "SELECT c FROM Compose c WHERE c.soireeId = :soireeId")})
+    @NamedQuery(name = "Compose.findById", query = "SELECT c FROM Compose c WHERE c.id = :id")})
 public class Compose implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,10 +36,12 @@ public class Compose implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "concert_id")
-    private Integer concertId;
-    @Column(name = "soiree_id")
-    private Integer soireeId;
+    @JoinColumn(name = "concert_id", referencedColumnName = "id")
+    @ManyToOne
+    private Concert concertId;
+    @JoinColumn(name = "soiree_id", referencedColumnName = "id")
+    @ManyToOne
+    private Soiree soireeId;
 
     public Compose() {
     }
@@ -56,19 +58,19 @@ public class Compose implements Serializable {
         this.id = id;
     }
 
-    public Integer getConcertId() {
+    public Concert getConcertId() {
         return concertId;
     }
 
-    public void setConcertId(Integer concertId) {
+    public void setConcertId(Concert concertId) {
         this.concertId = concertId;
     }
 
-    public Integer getSoireeId() {
+    public Soiree getSoireeId() {
         return soireeId;
     }
 
-    public void setSoireeId(Integer soireeId) {
+    public void setSoireeId(Soiree soireeId) {
         this.soireeId = soireeId;
     }
 

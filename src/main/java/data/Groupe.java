@@ -5,6 +5,7 @@
 package data;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +14,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,6 +40,10 @@ public class Groupe implements Serializable {
     private Integer id;
     @Column(name = "nom")
     private String nom;
+    @OneToMany(mappedBy = "groupeId")
+    private Set<Artiste> artisteSet;
+    @OneToMany(mappedBy = "groupeId")
+    private Set<Concert> concertSet;
 
     public Groupe() {
     }
@@ -59,6 +66,24 @@ public class Groupe implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    @XmlTransient
+    public Set<Artiste> getArtisteSet() {
+        return artisteSet;
+    }
+
+    public void setArtisteSet(Set<Artiste> artisteSet) {
+        this.artisteSet = artisteSet;
+    }
+
+    @XmlTransient
+    public Set<Concert> getConcertSet() {
+        return concertSet;
+    }
+
+    public void setConcertSet(Set<Concert> concertSet) {
+        this.concertSet = concertSet;
     }
 
     @Override
